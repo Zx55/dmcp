@@ -22,15 +22,13 @@ The code is tested with python 3.6, pytorch 1.1 and cuda 9.0. Other requirements
  
 ## Usage
 
-**Setup up the setting of `dataset.path` in config file first to specify the path to imagenet dataset.**
-
 ```bash
 python main.py --mode <M> --data <D> --config <C> --flops <F> [--chcfg <H>]
 
 -M, --mode, running mode: train | eval | calc_flops | sample, default: eval.
--D, --data: specify data folder.
--C, --config, specify config file.
--F, --flops, specify target flops.
+-D, --data: specify the path to imagenet dataset folder, required.
+-C, --config, specify config file, required.
+-F, --flops, specify target flops, required.
 --chcfg, specify channel config file when retrain pruned model from scratch.
 ```
  
@@ -57,7 +55,7 @@ We provide pretrained models, including
 
 * retrained models (e.g. res18-1.04g/checkpoints/retrain.pth)
 
-You can download it from [release]() and change the `recovery` setting in config file.
+You can download it from [release](https://github.com/Zx55/dmcp/releases/tag/v1.0) and change the `recovery` setting in config file.
 
 ### Results
 

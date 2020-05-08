@@ -1,0 +1,55 @@
+training:
+    epoch: 100
+    label_smooth: 0.1
+
+arch:
+    target_flops: None
+
+validation:
+    start_val: 0
+    val_freq: 1000
+
+model:
+    type: AdaptiveResNet50
+    kwargs:
+        ch_cfg: None
+        num_classes: &num_classes 1000
+        input_size: &input_size 224
+
+    runner:
+        type: NormalRunner
+
+recover:
+    enable: False
+    checkpoint: None
+
+distributed:
+    enable: True
+
+optimizer:
+    momentum: 0.9
+    weight_decay: 0.0001
+    nesterov: True
+    no_wd: True
+
+lr_scheduler:
+    base_lr: 0.2
+    warmup_lr: 0.8
+    warmup_steps: 1250
+    min_lr: 0.0
+
+dataset:
+    type: ImageNet
+    augmentation:
+        test_resize: 256
+        color_jitter: [0.2, 0.2, 0.2, 0.1]
+    workers: 4
+    batch_size: 64
+    num_classes: *num_classes
+    input_size: *input_size
+
+logging:
+    print_freq: 50
+
+random_seed: 2016
+save_path: ./results

@@ -1,0 +1,87 @@
+training:
+    epoch: 40
+    sandwich:
+        sample_type: offset
+        max_width: &max_width 1.0
+        min_width: &min_width 0.1
+        width_offset: &width_offset 0.1
+        num_sample: 4
+    label_smooth: None
+    distillation:
+        enable: True
+        temperature: 1
+        loss_weight: 1
+        hard_label: False
+
+arch:
+    target_flops: None
+    train_freq: 1
+    sample_type: [max, min, scheduled_random, scheduled_random]
+    floss_type: log_l1
+    flop_loss_weight: 0.1
+    num_flops_stats_sample: 3000
+    num_model_sample: 5
+
+validation:
+    width: [*max_width]
+    calibration:
+        enable: True
+        num_batch: 5
+
+evaluation:
+    width: [*max_width]
+    calibration:
+        enable: True
+        num_batch: 5
+
+model:
+    type: DMCPResNet18
+    kwargs:
+        num_classes: &num_classes 1000
+        input_size: &input_size 224
+        width: [*min_width, *max_width, *width_offset]
+        prob_type: sigmoid
+
+    runner:
+        type: DMCPRunner
+
+recover:
+    enable: False
+    checkpoint: None
+
+distributed:
+    enable: True
+
+optimizer:
+    momentum: 0.9
+    weight_decay: 0.0001
+    nesterov: True
+    no_wd: True
+
+lr_scheduler:
+    base_lr: 0.5
+    warmup_lr: 0.5
+    warmup_steps: 0
+    min_lr: 0.08
+
+arch_lr_scheduler:
+    base_lr: 0.5
+    warmup_lr: 0.5
+    warmup_steps: 0
+    min_lr: 0.1
+
+dataset:
+    type: ImageNet
+    augmentation:
+        test_resize: 256
+        color_jitter: [0.2, 0.2, 0.2, 0.1]
+    workers: 4
+    batch_size: 64
+    num_classes: *num_classes
+    input_size: *input_size
+
+logging:
+    print_freq: 50
+
+random_seed: 3080
+save_path: ./results

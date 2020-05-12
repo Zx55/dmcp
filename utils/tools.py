@@ -120,10 +120,10 @@ def get_data_loader(config):
 
     max_iter = len(train_loader) * config.training.epoch
     config.lr_scheduler.max_iter = max_iter
-    if config.get('arch_scheduler', None) is not None:
-        config.arch_scheduler.max_iter = max_iter
+    if config.get('arch_lr_scheduler', None) is not None:
+        config.arch_lr_scheduler.max_iter = max_iter
         config.arch.start_train = max_iter // 2
-        config.arch_scheduler.warmup_step = max_iter // 2
+        config.arch_lr_scheduler.warmup_step = max_iter // 2
 
     return train_loader, val_loader
 

@@ -123,7 +123,7 @@ def get_data_loader(config):
     if config.get('arch_lr_scheduler', None) is not None:
         config.arch_lr_scheduler.max_iter = max_iter
         config.arch.start_train = max_iter // 2
-        config.arch_lr_scheduler.warmup_step = max_iter // 2
+        config.arch_lr_scheduler.warmup_steps = max_iter // 2
 
     return train_loader, val_loader
 

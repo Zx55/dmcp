@@ -18,22 +18,24 @@ See our paper for more details.
 
 The code is tested with python 3.6, pytorch 1.1 and cuda 9.0. Other requirements can be install via:
 
-    pip install -r requirements.txt
- 
+```bash
+pip install -r requirements.txt
+```
+
 ## Usage
 
 ```bash
 python main.py --mode <M> --data <D> --config <C> --flops <F> [--chcfg <H>]
 
--M, --mode, running mode: train | eval | calc_flops | sample, default: eval.
+-M, --mode, running mode: train | eval | calc_flops | calc_params | sample, default: eval.
 -D, --data: specify the path to imagenet dataset folder, required.
 -C, --config, specify config file, required.
 -F, --flops, specify target flops, required.
 --chcfg, specify channel config file when retrain pruned model from scratch.
 ```
- 
+
 One example to train mbv2-300m:
- 
+
 ```bash
 # run dmcp process
 # result in `results/DMCP_MobileNetV2_43_MMDDHH/`
@@ -41,7 +43,7 @@ python main.py --mode train --data path-to-data --config config/mbv2/dmcp.yaml -
 
 # use above pruned channel config to retrain the model from scratch
 # result in `results/Adaptive_MobileNetV2_43_MMDDHH`
-python main.py --mode train --data path-to-data --config config/mbv2/retrain.yaml \ 
+python main.py --mode train --data path-to-data --config config/mbv2/retrain.yaml \
     --flops 43 --chcfg ./results/DMCPMobileNetV2_43_MMDDHH/model_sample/expected_ch
 ```
 

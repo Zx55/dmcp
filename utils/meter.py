@@ -117,3 +117,16 @@ def calc_adaptive_model_flops(model, input_size, mul_add=False):
     for hook in hook_list:
         hook.remove()
     return round(sum(module_flops) / 1e6, 2)
+
+
+def calc_model_parameters(model):
+    total_params = 0
+
+    params = list(model.parameters())
+    for param in params:
+        cnt = 1
+        for d in param.size():
+            cnt *= d
+        total_params += cnt
+
+    return round(total_params / 1e6, 2)

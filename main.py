@@ -58,6 +58,10 @@ def main():
         if dist.is_master():
             flops = tools.get_model_flops(config, runner.get_model())
             logger.info('flops: {}'.format(flops))
+    elif args.mode == 'calc_params':
+        if dist.is_master():
+            params = tools.get_model_parameters(runner.get_model())
+            logger.info('params: {}'.format(params))
     else:
         assert checkpoint is not None
         from models.dmcp.utils import sample_model

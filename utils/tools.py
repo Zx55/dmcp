@@ -48,7 +48,7 @@ def check_dist_init(config, logger):
 def get_args(parser):
     args = parser.parse_args()
 
-    assert args.mode in ['train', 'eval', 'sample', 'calc_flops']
+    assert args.mode in ['train', 'eval', 'sample', 'calc_flops', 'calc_params']
 
     return args
 
@@ -257,3 +257,10 @@ def get_model_flops(config, model):
         flops = calc_model_flops(model, input_size)
 
     return flops
+
+
+@dist.master
+def get_model_parameters(model):
+    from utils.meter import calc_model_parameters
+
+    return calc_model_parameters(model)

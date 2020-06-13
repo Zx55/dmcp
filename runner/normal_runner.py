@@ -7,7 +7,8 @@ import torch
 import torch.nn as nn
 import utils.distributed as dist
 from utils.loss_fn import LabelSmoothCELoss
-from utils.meter import AverageMeter, accuracy, calc_adaptive_model_flops
+from utils.meter import AverageMeter, accuracy, \
+    calc_adaptive_model_flops, calc_model_parameters
 
 
 class NormalRunner:
@@ -24,7 +25,8 @@ class NormalRunner:
         print_freq = self.config.logging.print_freq
 
         flops = calc_adaptive_model_flops(self.model, self.config.dataset.input_size)
-        self._info('flops: {}'.format(flops))
+        params = calc_model_parameters(self.model)
+        self._info('flops: {}, params: {}'.format(flops, params))
 
         # meters
         batch_time = AverageMeter(print_freq)
@@ -151,7 +153,7 @@ class NormalRunner:
 
     def get_model(self):
         return self.model
-    
+
     @dist.master
     def _info(self, msg, *args, **kwargs):
         self.logger.info(msg, *args, **kwargs)
